@@ -32,6 +32,7 @@ typedef Pilha * p_pilha;
 p_pilha criar_pilha();
 void empilha(p_pilha p, char c);
 void imprimir_pilha(p_pilha p);
+void destruir_pilha(p_no p);
 /******************************************************/
 const int tam_buffer=100;
 
@@ -46,7 +47,6 @@ int main() {
   fgets(buffer, tam_buffer, stdin);
   printf("%s", buffer);
 
-  printf("ˆˆˆˆˆˆˆPrintando as letras da minha frase separadamenteˆˆˆˆˆˆˆ\n");
   for(i=0;caractere != '\n';i++){
     caractere = buffer[i];
     if(caractere != '\n'){
@@ -54,13 +54,18 @@ int main() {
         empilha(pilha,caractere);
       }
       else if(caractere == ' '){
-
+        imprimir_pilha(pilha);
+        printf(" ");
+        destruir_pilha(pilha->topo);
+        pilha->tamanho = 0;
       }
+    }
+    else
+      imprimir_pilha(pilha);
   }
-}
-  printf("tamanho da pilha = %d\n", pilha->tamanho);
-  printf("imprimindo pilha com a funcao\n");
-  imprimir_pilha(pilha);
+  printf("\n");
+  destruir_pilha(pilha->topo);
+  free(pilha);
   return 0;
 }
 
@@ -84,8 +89,14 @@ void empilha(p_pilha p, char c){
 void imprimir_pilha(p_pilha p){
   int i;
   for(i=0;i<p->tamanho;i++){
-    printf("%c ",p->topo->letra);
+    printf("%c",p->topo->letra);
     p->topo = p->topo->prox;
   }
-  printf("\n");
+}
+
+void destruir_pilha(p_no p){
+  if(p != NULL){
+    destruir_pilha(p->prox);
+    free(p);
+  }
 }
