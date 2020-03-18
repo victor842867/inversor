@@ -45,7 +45,6 @@ int main() {
   pilha = criar_pilha();
 
   fgets(buffer, tam_buffer, stdin);
-  printf("%s", buffer);
 
   for(i=0;caractere != '\n';i++){
     caractere = buffer[i];
