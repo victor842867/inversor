@@ -29,8 +29,9 @@ typedef Pilha * p_pilha;
 
 /******************************************************/
 /*Definindo as funcoes que serao utilizadas no meu programa*/
-void criar_pilha(p_pilha pilha);
+p_pilha criar_pilha();
 void empilha(p_pilha p, char c);
+void imprimir_pilha(p_pilha p);
 /******************************************************/
 const int tam_buffer=100;
 
@@ -40,43 +41,51 @@ int main() {
   char buffer[tam_buffer];
   p_pilha pilha; /*Minha pilha vai ser do tipo p_no pois ela sera uma lista ligada*/
 
-  criar_pilha(pilha);
-  printf("tamanho = %d\n",pilha->tamanho);
-  empilha(pilha,'d');
+  pilha = criar_pilha();
 
   fgets(buffer, tam_buffer, stdin);
   printf("%s", buffer);
 
-printf("ˆˆˆˆˆˆˆPrintando as letras da minha frase separadamenteˆˆˆˆˆˆˆ\n");
-for(i=0;caractere != '\n';i++){
-  caractere = buffer[i];
-  if(caractere != '\n'){
-  printf("%c\n",caractere);
+  printf("ˆˆˆˆˆˆˆPrintando as letras da minha frase separadamenteˆˆˆˆˆˆˆ\n");
+  for(i=0;caractere != '\n';i++){
+    caractere = buffer[i];
+    if(caractere != '\n'){
+      if(caractere != ' '){
+        empilha(pilha,caractere);
+      }
+      else if(caractere == ' '){
+
+      }
   }
 }
-
+  printf("tamanho da pilha = %d\n", pilha->tamanho);
+  printf("imprimindo pilha com a funcao\n");
+  imprimir_pilha(pilha);
   return 0;
 }
 
 /*Funcoes que foram utilizadas no programa*/
-void criar_pilha(p_pilha pilha){
-  pilha = malloc(sizeof(Pilha));
+p_pilha criar_pilha(){
+  p_pilha pilha = malloc(sizeof(Pilha));
   pilha->topo = NULL;
   pilha->tamanho = 0;
+  return pilha;
 }
 
 void empilha(p_pilha p, char c){
-  printf("teste1\n");
   p_no novo;
   novo = malloc(sizeof(No));
-  printf("teste2\n");
   novo->letra = c;
-  printf("letra recebida = %c\n", novo->letra);
-  printf("teste3\n");
   novo->prox = p->topo;
-  printf("teste4\n");
   p->topo = novo;
-  printf("teste5\n");
   p->tamanho++;
-  printf("teste6\n");
+}
+
+void imprimir_pilha(p_pilha p){
+  int i;
+  for(i=0;i<p->tamanho;i++){
+    printf("%c ",p->topo->letra);
+    p->topo = p->topo->prox;
+  }
+  printf("\n");
 }
